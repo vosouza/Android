@@ -1,6 +1,11 @@
 package com.example.miwokapp;
 
 public class word {
+
+    /*
+        Essa classe tem como objetivo guardar todas as inforações
+        que serão usadas nos itens da lista
+     */
     private String miwokWord;
     private String englishWord;
 

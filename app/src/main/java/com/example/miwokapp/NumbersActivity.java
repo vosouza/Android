@@ -7,7 +7,6 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,8 +15,12 @@ import java.util.ArrayList;
 
 public class NumbersActivity extends AppCompatActivity {
 
+    //Classe Estatica MediaPlayer usada para tocar video ou musica
+    //Essa classe necissita ser reutizada para tocar as diferentes musicas pois
+    //caso seja instanciada muitas vezes pode causar bugs no sistema
     private MediaPlayer mp;
 
+    //metodo usado quando a musica termina
     private MediaPlayer.OnCompletionListener endAudio = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -25,6 +28,12 @@ public class NumbersActivity extends AppCompatActivity {
         }
     };
 
+    /*
+        A classe AudioManager é um serviço oferecido pelo sistema para gerenciar sons
+        de diversos apps ao mesmo tempo. Para isso é necessario pedir ao sistema para
+        usar as caixas de som e implementar o OnAudioFocusChangeListener para que o app
+        decida o que fazer quando o sistema empresta a caixa de som para outro app
+     */
     private AudioManager am;
     private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
@@ -51,16 +60,26 @@ public class NumbersActivity extends AppCompatActivity {
         }
     };
 
+    //Metodo principal que lida com a interface e funcionaalidades
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Passado para o sistema qual layout deve ser carregado
+        //nesse caso é usado um layout comum para todas as outras classes em que
+        //serão mostradas as listas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_activity);
 
+        //Instruçoes para mostrar a seta de voltar na parte superiror do app
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        //Requisicao do sistema de audio
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+        /*
+            Lista de objetos com as informações que serão mostradas na tela
+         */
         final ArrayList<word> numbers = new ArrayList<word>();
         numbers.add(new word("One","lutti",R.drawable.number_one,R.raw.number_one));
         numbers.add(new word("two","otiiko",R.drawable.number_two,R.raw.number_two));
@@ -73,20 +92,30 @@ public class NumbersActivity extends AppCompatActivity {
         numbers.add(new word("nine","wo’e",R.drawable.number_nine,R.raw.number_nine));
         numbers.add(new word("ten","na’aacha",R.drawable.number_ten,R.raw.number_ten));
 
+        /*
+            Adaptador onde passa-se o layout que sera usado nos itens da lista e
+            a lista de objetos com as informações para preencher o layout
+         */
         WordAdaoter itens = new WordAdaoter(this, numbers, R.color.category_numbers);
 
+        //Capta o lugar on a lista será mostrada
         ListView l = (ListView) findViewById(R.id.list);
+        //Passa o adptador que tem metodos especificos para facilitar a criação da lista
         l.setAdapter(itens);
+        //Metodo usado para o click nos itens da lista
         l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 releaseMediaPlayer();
+
+                //Capta o objeto da lista criada anteriormente
                 word palavra = numbers.get(position);
 
+                //Requisição de permissão para tocar o som
                 int result = am.requestAudioFocus(mOnAudioFocusChangeListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
+                //Se estiver tudo ok entao toca o som
                 if(palavra.hasSound() || (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)){
-
                     mp = MediaPlayer.create(NumbersActivity.this,palavra.getSoundId());
                     mp.start();
                     mp.setOnCompletionListener(endAudio);
@@ -96,12 +125,14 @@ public class NumbersActivity extends AppCompatActivity {
 
     }
 
+    //Metodo acionado quando a tela do app sai de foco
     @Override
     protected void onStop(){
         super.onStop();
         releaseMediaPlayer();
     }
 
+    //metodo para liberar o som que estava armazenado para que possa ser colocado outro
     private void releaseMediaPlayer() {
         // If the media player is not null, then it may be currently playing a sound.
         if (mp != null) {
