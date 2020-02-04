@@ -1,76 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context="com.example.miwokapp.MainActivity">
 
-    <LinearLayout
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/category_numbers">
-
-                <TextView
-                android:id="@+id/numbers"
-                style="@style/CategoryStyle"
-                android:background="?android:selectableItemBackground"
-                android:text="@string/category_numbers"
-                android:onClick="numberList"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/category_family">
-
-            <TextView
-                android:id="@+id/family"
-                style="@style/CategoryStyle"
-                android:background="?android:selectableItemBackground"
-                android:text="@string/category_family"
-                android:onClick="familyList"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/category_colors">
-
-            <TextView
-                android:id="@+id/colors"
-                style="@style/CategoryStyle"
-                android:background="?android:selectableItemBackground"
-                android:text="@string/category_colors"
-                android:onClick="colorsList"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/category_phrases">
-
-            <TextView
-                android:id="@+id/phrases"
-                style="@style/CategoryStyle"
-                android:background="?android:selectableItemBackground"
-                android:text="@string/category_phrases"
-                android:onClick="phraseList"/>
-
-        </FrameLayout>
-
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

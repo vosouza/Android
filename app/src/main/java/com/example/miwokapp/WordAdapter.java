@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat;
 
 import java.util.List;
 
-public class WordAdaoter extends ArrayAdapter<word> {
+public class WordAdapter extends ArrayAdapter<word> {
 
     /*
         Classe necessario para criar um lista responsiva que se recicla
@@ -21,7 +21,7 @@ public class WordAdaoter extends ArrayAdapter<word> {
     public int listColor; //cor de fundo do texto
     public word palavra; // Objeto da lista
 
-    public WordAdaoter(Activity context, List<word> palavra, int color){
+    public WordAdapter(Activity context, List<word> palavra, int color){
         super(context,0, palavra);
         listColor = color;
     }

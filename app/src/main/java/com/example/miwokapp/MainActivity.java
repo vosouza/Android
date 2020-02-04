@@ -1,10 +1,13 @@
 package com.example.miwokapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,12 +15,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        // Create an adapter that knows which fragment should be shown on each page
+        MiwokFragmentPageAdpter adapter = new MiwokFragmentPageAdpter(getSupportFragmentManager());
+
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     /*
        Metodos que estão atrelados aos Textviews do layout
        activity_main no atributo OnClick
-     */
+
 
     public void numberList(View view){
 
@@ -38,5 +52,5 @@ public class MainActivity extends AppCompatActivity {
     public void colorsList(View view){
         Intent i = new Intent(this, ColorsActivity.class);
         startActivity(i);
-    }
+    }*/
 }

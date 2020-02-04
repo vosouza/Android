@@ -51,7 +51,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/baseline_play_arrow_white_24dp"/>
+            app:srcCompat="@android:drawable/ic_media_play"
+            android:paddingRight="16dp"/>
 
     </LinearLayout>
 
